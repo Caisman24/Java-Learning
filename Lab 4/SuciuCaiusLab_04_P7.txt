@@ -1,0 +1,140 @@
+import java.util.Scanner;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		Child kid = new Child("Pisti", 15, 1, 2008);
+		kid.sayHello();
+		kid.sayAge();
+		System.out.println("\nThe kid knows the alphabet: enter 1 for normal and other number for backwards: ");
+		Scanner scanner = new Scanner(System.in);
+		int direction = scanner.nextInt();
+		kid.sayAlphabet(direction);
+		System.out.println("\nThe kid wants to show you that he knows how to color: ");
+		System.out.println("A checkboard of n*n, please enter the value: ");
+		int n = scanner.nextInt();
+		kid.colorBoard( n);
+		kid.sayGoodbye();
+	}
+
+}
+import java.util.Calendar;
+import java.util.Random;
+
+public class Child {
+	String name;
+	Birthday bday = new Birthday();
+
+	class Birthday {
+		private int day, month, year;
+
+		public Birthday() {
+
+		}
+
+		public Birthday(int day, int month, int year) {
+			this.day = day;
+			this.month = month;
+			this.year = year;
+		}
+
+		public int getDay() {
+			return day;
+		}
+
+		public int getMonth() {
+			return month;
+		}
+
+		public int getYear() {
+			return year;
+		}
+
+	}
+
+	public Child(String name, int day, int month, int year) {
+		this.name = name;
+		setBday(day, month, year);
+	}
+
+	public void setBday(int day, int month, int year) {
+		this.bday.day = day;
+		this.bday.month = month;
+		this.bday.year = year;
+	}
+
+	public void sayHello() {
+		System.out.println("Hello my name is: " + name);
+	}
+
+	public void sayAge() {
+		int age = Calendar.getInstance().get(Calendar.YEAR) - bday.year;
+		System.out.println("I am " + age + " years old");
+	}
+
+	public void sayGoodbye() {
+		System.out.println("\nGoodbye friend!");
+	}
+
+	public void sayAlphabet(int direction) {
+		String alphabetString = "abcdefghijklmnopqrstuvwxyz";
+		if (direction == 1) {
+			for (int i = 0; i < alphabetString.length(); i++) {
+				System.out.print(alphabetString.charAt(i));
+
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			System.out.println();
+		} else {
+			StringBuilder reverseAlphabet = new StringBuilder();
+			reverseAlphabet.append(alphabetString);
+			reverseAlphabet.reverse();
+			for (int i = 0; i < reverseAlphabet.length(); i++) {
+				System.out.print(reverseAlphabet.charAt(i));
+
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			System.out.println();
+		}
+	}
+
+	public void colorBoard(int n) {
+		Random rand = new Random();
+		int start = rand.nextInt(2);
+		
+		if (start==1) {
+			for (int i=0;i<n;i++) {
+				for (int j=0;j<n;j++) {
+					if ((j+i)%2==0) {
+						System.out.print(1);
+					}
+					else {
+						System.out.print(0);
+					}
+				}
+				System.out.println();
+			}
+		} else {
+			for (int i=0;i<n;i++) {
+				for (int j=0;j<n;j++) {
+					if ((j+i)%2==0) {
+						System.out.print(0);
+					}
+					else {
+						System.out.print(1);
+					}
+				}
+				System.out.println();
+			}
+		}
+	}
+}
+

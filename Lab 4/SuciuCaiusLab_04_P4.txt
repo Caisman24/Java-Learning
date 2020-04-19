@@ -1,0 +1,98 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class MainClass {
+	private static Scanner scan = new Scanner(System.in);
+
+	public static void main(String[] args) {
+		System.out.println("Enter the number of persons you want in your array: ");
+		int noPersons = scan.nextInt();
+		if (noPersons > 0) {
+			ArrayList<Person> persons = new ArrayList<>();
+			readInfo(persons, noPersons);
+			displayInfo(persons, noPersons);
+		} else {
+			System.out.println("\nINVALID INPUT!");
+		}
+	}
+
+	public static void readInfo(ArrayList<Person> persons, int n) {
+		System.out.println("Enter the details: ");
+		String inputName;
+		Float inputLat, inputLgt;
+		for (int i = 0; i < n; i++) {
+			Person object = new Person();
+			System.out.println("\nName of the person: ");
+			inputName = scan.next();
+
+			System.out.println("Latitude for person: ");
+			inputLat = scan.nextFloat();
+
+			System.out.println("Longitude for person: ");
+			inputLgt = scan.nextFloat();
+
+			object.setName(inputName);
+			object.setLatitude(inputLat);
+			object.setLongitude(inputLgt);
+
+			persons.add(object);
+		}
+	}
+
+	public static void displayInfo(ArrayList<Person> persons, int n) {
+		for (int i = 0; i < n; i++) {
+			System.out.println("\nName for person " + (i + 1) + " is " + persons.get(i).getName());
+			System.out.println("Latitude for person " + (i + 1) + " is " + persons.get(i).getLatitude());
+			System.out.println("Longitude for person " + (i + 1) + " is " + persons.get(i).getLongitude());
+		}
+	}
+}
+
+
+public class Person {
+	private String name;
+	private float latitude;
+	private float longitude;
+
+	public Person() {
+		latitude = 0;
+		longitude = 0;
+	}
+
+	public Person(String name, float latitude, float longitude) {
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public float getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+
+	public float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		System.out.println("\nOBJECT DESTROYED!");
+	}
+
+}
+

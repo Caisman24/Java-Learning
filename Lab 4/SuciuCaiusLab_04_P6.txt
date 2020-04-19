@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter the dimension of the string: ");
+		int dimension = scanner.nextInt();
+		String string = randomString(dimension);
+		System.out.println("The initial string is: " + string);
+
+		string = string.replaceAll("[0-9]", "*");
+		System.out.println("The string after eliminating numbers: " + string);
+	}
+
+	private static String randomString(int length) {
+		String letterNumber = "abcdefghijklmnopqrstuvwxyz1234567890";
+		char[] string = new char[length];
+		for (int i = 0; i < length; i++) {
+			int rand = (int) (Math.random() * letterNumber.length());
+			string[i] = letterNumber.charAt(rand);
+		}
+		return new String(string);
+	}
+
+}

@@ -1,0 +1,80 @@
+import java.util.Scanner;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		System.out.println("Please enter the key: ");
+		Scanner scanner = new Scanner(System.in);
+		String input = scanner.nextLine();
+		Key key = new Key(input);
+		key.isEligible();
+	}
+
+}
+
+import java.util.StringTokenizer;
+
+public class Key {
+	private String key;
+
+	public Key() {
+		this.key = "00000-00000-00000-00000";
+	}
+
+	public Key(String key) {
+		this.key = key;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public boolean isEligible() {
+		if (key.length() == 23) {
+			int digitsCount = 0;
+			int lettersCount = 0;
+			StringTokenizer stringTokenizer = new StringTokenizer(getKey(), "-");
+			int countSeparators = stringTokenizer.countTokens();
+			int number = 0;
+
+			while (number < countSeparators) {
+				String str = stringTokenizer.nextToken();
+				if (str.length() != 5) {
+					System.out.println("Key is invalid!");
+					return false;
+				} else {
+					for (int i = 0; i < str.length(); i++) {
+						if (Character.isLetterOrDigit(str.charAt(i)) == false) {
+							System.out.println("Cannot contain symbols!");
+							return false;
+						} else if (Character.isLetter(str.charAt(i))) {
+							lettersCount++;
+						} else {
+							digitsCount++;
+						}
+
+					}
+				}
+				number++;
+			}
+
+			if (lettersCount == 0) {
+				System.out.println("Cannot have 0 letters!");
+				return false;
+			} else if (lettersCount > digitsCount) {
+				System.out.println("Cannot have more letters than digits!");
+				return false;
+			}
+
+		} else {
+			System.out.println("Key is not long enough! ");
+			return false;
+		}
+		System.out.println("Activation complete!");
+		return true;
+	}
+}
