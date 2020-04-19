@@ -1,0 +1,152 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		Point p1 = new Point(-3, 4);
+		Point p2 = new Point(-2, -2);
+		Point p3 = new Point(3, 2);
+
+		Triangle object = new Triangle(p1, p2, p3);
+
+		System.out.println("The first triangle is: " + object.getAngleClass());
+
+		Point p4 = new Point(0, 0);
+		Point p5 = new Point(1, 1);
+		Point p6 = new Point(1, 2);
+		Triangle o2 = new Triangle(p4, p5, p6);
+
+		//System.out.println("The second triangle is: " + o2.getAngleClass());
+	}
+
+}
+
+import java.util.Arrays;
+
+public class Triangle {
+	double a, b, c;
+
+	public Triangle() {
+		a = 0;
+		b = 0;
+		c = 0;
+	}
+
+	public Triangle(Point p1, Point p2, Point p3) {
+		this.a = calculateDistance(p1, p2);
+		this.b = calculateDistance(p1, p3);
+		this.c = calculateDistance(p2, p3);
+		order();
+	}
+
+	double calculateDistance(Point p1, Point p2) {
+		double number = 0;
+		number = Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2));
+		return number;
+	}
+
+	public double getA() {
+		return a;
+	}
+
+	public double getB() {
+		return b;
+	}
+
+	public double getC() {
+		return c;
+	}
+
+	public void setA(double a) {
+		this.a = a;
+	}
+
+	public void setB(double b) {
+		this.b = b;
+	}
+
+	public void setC(double c) {
+		this.c = c;
+	}
+
+	public void order() {
+		double[] copy = new double[3];
+		copy[0] = a;
+		copy[1] = b;
+		copy[2] = c;
+		Arrays.sort(copy);
+		a = copy[0];
+		b = copy[1];
+		c = copy[2];
+	}
+
+	public String getAngleClass() {
+		double cPow = Math.pow(c, 2);
+		double bPow = Math.pow(b, 2);
+		double aPow = Math.pow(a, 2);
+
+		if (aPow + bPow > cPow) {
+			try {
+				throw new RightTriangle("error occured");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "right";
+		} else if (aPow + bPow == cPow) {
+			try {
+				throw new AcuteTriangleEx("error occured");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "acute";
+		 }else return"obtuse";
+}
+
+}
+
+class Point {
+		double x, y;
+
+		public Point() {
+			x = 0;
+			y = 0;
+		}
+
+		public Point(double x, double y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public double getX() {
+			return x;
+		}
+
+		public void setX(double x) {
+			this.x = x;
+		}
+
+		public double getY() {
+			return y;
+		}
+
+		public void setY(double y) {
+			this.y = y;
+		}
+
+	}
+
+
+public class RightTriangle extends Exception {
+	public RightTriangle(String message) {
+		super("The triangle is right");
+	}
+}
+
+
+
+public class AcuteTriangleEx extends Exception {
+	public AcuteTriangleEx(String message) {
+		super("The triangle is acute");
+	}
+}

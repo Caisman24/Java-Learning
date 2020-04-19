@@ -1,0 +1,265 @@
+package dbInteraction;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Main {
+	static Scanner scanner = new Scanner(System.in);
+
+	public static void main(String[] args) {
+		Database db = new Database();
+
+		System.out.print("Login-1, Register-2\nYour input: ");
+		int input = scanner.nextInt();
+		if (input == 1) {
+			Person person = getInfo();
+			db.login(person);
+		} else if (input == 2) {
+			Person person = getInfo();
+			if (db.createUser(person))
+				System.out.println();
+		} else
+			throw new InputMismatchException();
+
+	}
+
+	static Person getInfo() {
+		Person person = new Person();
+		String input;
+		
+		System.out.print("First Name: ");
+		input=scanner.next();
+		person.setFirstName(input);
+		
+		System.out.print("Second Name: ");
+		input=scanner.next();
+		person.setSecondName(input);
+		
+		System.out.print("E-mail: ");
+		input=scanner.next();
+		person.setEmail(input);
+		
+		System.out.print("UserID: ");
+		input=scanner.next();
+		person.setUserId(input);
+		
+		System.out.print("Password: ");
+		input=scanner.next();
+		person.setPassword(input);
+		return person;
+	}
+}
+
+
+package dbInteraction;
+
+public class Person {
+	private String firstName;
+	private String secondName;
+	private String email;
+	private String userId;
+	private String password;
+	
+	public Person() {}
+	
+	public Person(String firstName, String secondName, String email, String userId, String password) {
+		this.firstName = firstName;
+		this.secondName = secondName;
+		this.email = email;
+		this.userId = userId;
+		this.password = password;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getSecondName() {
+		return secondName;
+	}
+
+	public void setSecondName(String secondName) {
+		this.secondName = secondName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+}
+
+package dbInteraction;
+
+public interface Authentication {
+	boolean createUser(Person person);
+
+	boolean deleteUser(Person person);
+
+	boolean login(Person person);
+}
+
+package dbInteraction;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public abstract class VerifyPerson extends Person {
+	boolean verifyFirstName(Person person) {
+		try {
+			String REGEX = "^[A-Za-z0-9+.]{1,50}";
+			Pattern pattern = Pattern.compile(REGEX);
+			Matcher matcher = pattern.matcher(person.getFirstName());
+			if (matcher.matches())
+				return true;
+			else {
+				throw new Exception("Name formatation incorrect!");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("Name formatation incorrect!");
+			return false;
+		}
+	}
+
+	boolean verifySecondName(Person person) {
+		try {
+			String REGEX = "^[A-Za-z0-9+.]{1,50}";
+			Pattern pattern = Pattern.compile(REGEX);
+			Matcher matcher = pattern.matcher(person.getSecondName());
+			if (matcher.matches())
+				return true;
+			else {
+				throw new Exception("Name incorrect!");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("Name formatation incorrect!");
+			return false;
+		}
+	}
+
+	boolean verifyEmail(Person person) {
+		try {
+			String REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,7}$";
+			Pattern pattern = Pattern.compile(REGEX);
+			Matcher matcher = pattern.matcher(person.getEmail());
+			if (matcher.matches())
+				return true;
+			else {
+				throw new Exception("\nEmail incorrect!");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("Email formatation incorrect!");
+			return false;
+		}
+	}
+
+	abstract boolean verifyUserID(Person person);
+
+	abstract boolean verifyPassword(Person person);
+}
+
+package dbInteraction;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Database extends VerifyPerson implements Authentication {
+	ArrayList<Person> users = new ArrayList<>();
+	ArrayList<Person> admins = new ArrayList<>();
+	ArrayList<Person> dbAdmin = new ArrayList<>();
+	ArrayList<Person> superUser = new ArrayList<>();
+
+	boolean verifyUserID(Person person) {
+		try {
+			String REGEX = "^\\\\w[\\\\w\\\\.]+\\\\w$";
+			Pattern pattern = Pattern.compile(REGEX);
+			Matcher matcher = pattern.matcher(person.getUserId());
+			if (matcher.matches())
+				return true;
+			else {
+				throw new Exception("UserID is incorrect");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("UserID formation incorrect!");
+			return false;
+		}
+	}
+
+	@Override
+	public boolean createUser(Person person) {
+		if (!users.contains(person)) {
+			if (verifyFirstName(person) && verifySecondName(person) && verifyEmail(person) && verifyUserID(person)
+					&& verifyPassword(person)) {
+				users.add(person);
+				return true;
+			} else
+				return false;
+		} else
+			System.out.println("User already exists");
+		return false;
+	}
+
+	@Override
+	public boolean deleteUser(Person person) {
+		if (users.contains(person)) {
+			users.remove(person);
+			return true;
+		} else System.out.println("User doesn't exist");
+		return false;
+	}
+
+	@Override
+	public boolean login(Person person) {
+		if (admins.contains(person) || dbAdmin.contains(person) || superUser.contains(person) || users.contains(person)) {
+			System.out.println("Welcome "+ person.getFirstName()+" !");
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	boolean verifyPassword(Person person) {
+		try {
+            String REGEX = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})"; //one lower, one upper, one digit, minimum 8
+            Pattern pattern = Pattern.compile(REGEX);
+            Matcher matcher = pattern.matcher(person.getPassword());
+            if (matcher.matches()) return true;
+            else {
+                throw new Exception("Password is incorrect");
+            }
+        }
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("Your password is not correctly formated!");
+            return false;
+        }
+	}
+}

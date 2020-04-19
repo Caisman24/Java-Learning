@@ -1,0 +1,116 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		int number;
+		do {
+			System.out.print("How many positions do you want: ");
+			number = scanner.nextInt();
+			if (number<0 ||number>3) 
+				try {
+					throw new IndexOutOfBoundsException("Number bigger than 4");
+				} catch (Exception e) {
+				e.printStackTrace();
+				}
+		} while (number<0 || number>3);
+
+		String name;
+		int x, y, z;
+		Position[] object = new Position[3];
+		boolean ok=true; //If it's far
+		
+		for (int i = 0; i < number; i++) {
+			ok=true;
+			System.out.print("\n");
+			System.out.print("Enter name: ");
+			name = scanner.next();
+
+			System.out.print("X: ");
+			x = scanner.nextInt();
+
+			System.out.print("Y: ");
+			y = scanner.nextInt();
+
+			System.out.print("Z: ");
+			z = scanner.nextInt();
+			
+			for (int j=0;j<i;j++) {
+				if (Math.abs(x+y+z-object[j].x-object[j].y-object[j].z)<2) {
+					ok=false;
+					try {
+						throw new PointTooCloseEx("Error occured!");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+					
+			}
+			if (ok==false) i--;
+			else  object[i] = new Position(name, x, y, z);
+		}
+	}
+
+}
+
+public class Position {
+	String name= null;
+	int x, y, z;
+
+	public Position() {
+		name = "default";
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+
+	public Position(String name, int x, int y, int z) {
+		this.name = name;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getZ() {
+		return z;
+	}
+
+	public void setZ(int z) {
+		this.z = z;
+	}
+
+}
+
+
+public class PointTooCloseEx extends Exception {
+	public PointTooCloseEx(String message) {
+		super("Point too close!");
+	}
+}

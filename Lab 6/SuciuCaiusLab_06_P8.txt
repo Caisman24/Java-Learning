@@ -1,0 +1,91 @@
+import java.util.Scanner;
+
+public class Main {
+	private static Scanner scanner = new Scanner(System.in);
+
+	public static void main(String[] args) {
+		System.out.println("Enter the number plates from your car with '-' between them: ");
+		String numberPlate = scanner.next();
+		LicencePlate object = new LicencePlate(numberPlate);
+		if (object.isValid()) {
+			System.out.println("You are legit");
+		} else {
+			System.out.println("BUSTEEED");
+		}
+	}
+
+}
+
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class LicencePlate {
+	private String licencePlate;
+
+	public LicencePlate(String licencePlate) {
+		this.licencePlate = licencePlate;
+	}
+
+	public String getlicencePlate() {
+		return licencePlate;
+	}
+
+	public void setlicencePlate(String licencePlate) {
+		this.licencePlate = licencePlate;
+	}
+
+	public boolean isValid() {
+		if (!validForm()) {
+			System.out.println("Incorrect input!\nMust be L{L}-NN{N}-LLL");
+			try {
+				throw new RoLicencePlateEx("Not correctly structured!");
+			} catch (RoLicencePlateEx ex) {
+				ex.printStackTrace();
+				return false;
+			}
+		}
+		StringTokenizer stringTokenizer = new StringTokenizer(licencePlate, "-");
+		String region = stringTokenizer.nextToken();
+		String number = stringTokenizer.nextToken();
+		String id = stringTokenizer.nextToken();
+
+		try {
+			if (!region.equals("B")) {
+				if (number.length() == 3)
+					throw new RoLicencePlateEx("Nu esti pe Bucales, nu poti avea 3 cifre!");
+				else {
+					if ((id.charAt(0) == 'I') || (id.charAt(0) == 'O') || (id.charAt(2) == 'I')
+							|| (id.charAt(2) == 'O'))
+						throw new RoLicencePlateEx("You can't have 'I' or 'O' on first or last position!");
+				}
+			} else {
+				if ((id.charAt(0) == 'I') || (id.charAt(0) == 'O') || (id.charAt(2) == 'I') || (id.charAt(2) == 'O'))
+					throw new RoLicencePlateEx("You can't have 'I' or 'O' on first or last position!");
+			}
+
+		} catch (RoLicencePlateEx ex) {
+			ex.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean validForm() {
+		String REGEX = "^[A-Za-z]{1,2}-[0-9]{2,3}-[A-Za-z]{3}$";
+		Pattern pattern = Pattern.compile(REGEX);
+		Matcher matcher = pattern.matcher(getlicencePlate());
+		return matcher.matches();
+	}
+}
+
+
+public class RoLicencePlateEx extends Exception {
+
+	public RoLicencePlateEx(String message) {
+		super(message);
+	}
+
+}
+

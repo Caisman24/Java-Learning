@@ -1,0 +1,156 @@
+package caiussuciu;
+
+import java.util.Scanner;
+
+import imageProcessor.*;
+
+public class Main {
+	private static Scanner scanner = new Scanner(System.in);
+
+	public static void main(String[] args) {
+		System.out.println("Enter the size of matrix MxN: ");
+		int input, input2;
+		input = scanner.nextInt();
+		input2 = scanner.nextInt();
+		MyImage object = new MyImage(input, input2);
+
+		long startTime = System.nanoTime();
+		object.createImage();
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000;
+		System.out.println("Image creation took: " + duration + " ms");
+
+		System.out.println("\nEnter specific index of RGB to eliminate: ");
+		input = scanner.nextInt();
+		startTime = System.nanoTime();
+		object.eliminate(input, input, input);
+		endTime = System.nanoTime();
+		duration = (endTime - startTime) / 1000000;
+		System.out.println("Elimination of specific RGB took: " + duration + " ms");
+
+		System.out.println("\nEnter the color you want to delete (R/G/B): ");
+		String choice = scanner.next();
+		startTime = System.nanoTime();
+		object.eliminateOne(choice);
+		endTime = System.nanoTime();
+		duration = (endTime - startTime) / 1000000;
+		System.out.println("Elimination of specific color took: " + duration + " ms");
+
+		startTime = System.nanoTime();
+		object.turnGrey();
+		endTime = System.nanoTime();
+		duration = (endTime - startTime) / 1000000;
+		System.out.println("Transform to grey took: " + duration + " ms");
+
+	}
+}
+
+
+package imageProcessor;
+
+import java.util.Random;
+
+public class MyImage {
+	protected int m, n;
+	Pixel[][] mat = new Pixel[m][n];
+
+	public MyImage(int m, int n) {
+		this.m = m;
+		this.n = n;
+	}
+
+	public void createImage() {
+		Random random = new Random();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				mat[i][j].R = random.nextInt(256);
+				mat[i][j].G = random.nextInt(256);
+				mat[i][j].B = random.nextInt(256);
+			}
+		}
+	}
+
+	public void eliminate(int r, int g, int b) {
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				if (mat[i][j].R < r)
+					mat[i][j].R = 0;
+				if (mat[i][j].G < g)
+					mat[i][j].G = 0;
+				if (mat[i][j].B < b)
+					mat[i][j].B = 0;
+			}
+		}
+	}
+
+	public void eliminateOne(String color) {
+		switch (color) {
+		case "R": {
+			for (int i = 0; i < m; i++) {
+				for (int j = 0; j < n; j++)
+					mat[i][j].R = 0;
+			}
+		}
+		case "G": {
+			for (int i = 0; i < m; i++) {
+				for (int j = 0; j < n; j++)
+					mat[i][j].G = 0;
+			}
+		}
+		case "B": {
+			for (int i = 0; i < m; i++) {
+				for (int j = 0; j < n; j++)
+					mat[i][j].B = 0;
+			}
+		}
+
+		default:
+			System.out.println("\nWrong input for deleting color!");
+		}
+	}
+
+	public void turnGrey() {
+		double number;
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				number = 0.21 * mat[i][j].R + 0.71 * mat[i][j].G + 0.07 * mat[i][j].B;
+				mat[i][j].R = (int) number;
+				mat[i][j].G = (int) number;
+				mat[i][j].B = (int) number;
+			}
+		}
+	}
+
+	public int getM() {
+		return m;
+	}
+
+	public void setM(int m) {
+		this.m = m;
+	}
+
+	public int getN() {
+		return n;
+	}
+
+	public void setN(int n) {
+		this.n = n;
+	}
+
+}
+
+package imageProcessor;
+
+public class Pixel {
+	protected int R, G, B;
+
+	public Pixel(int R, int G, int B) {
+		assert ((R > 255) || (R < 0)) : "input error at red color: " + R;
+		assert ((G > 255) || (G < 0)) : "input error at green color: " + G;
+		assert ((B > 255) || (B < 0)) : "input error at blue color: " + B;
+		this.R = R;
+		this.G = G;
+		this.B = B;
+	}
+}
+

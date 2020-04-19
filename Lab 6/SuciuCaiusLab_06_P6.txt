@@ -1,0 +1,57 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		ColorConversion object = new ColorConversion(191, 191, 191);
+		object.showHSV();
+	}
+
+}
+
+
+public class ColorConversion {
+	public float r, g, b;
+	private float Cmax, Cmin, Delta, H, S, V;
+
+	public ColorConversion(float r, float g, float b) {
+		this.r = r / 255;
+		this.g = g / 255;
+		this.b = b / 255;
+
+		Cmax = Math.max(r, g);
+		Cmax = Math.max(Cmax, b);
+		Cmax/=255;
+
+		Cmin = Math.min(r, g);
+		Cmin = Math.min(Cmin, b);
+		Cmin/=255;
+
+		Delta = (Cmax - Cmin);
+		HueCalculation();
+		SaturationCalculation();
+		Valuecalculation();
+	}
+
+	public void HueCalculation() {
+		if (Delta == 0) H = 0;
+		else if (Cmax == r) H = 60 * (((g - b) / Delta) % 6);
+		else if (Cmax == g) H = 60 * (((b - r) / Delta) + 2);
+		else H = 60 * (((r - g) / Delta) + 4);
+	}
+
+	public void SaturationCalculation() {
+		System.out.println(Delta);
+		if (Cmax == 0)
+			S = 0;
+		else
+			S = Delta / Cmax;
+	}
+
+	public void Valuecalculation() {
+		V = Cmax * 100;
+	}
+
+	public void showHSV() {
+		System.out.print("The HSV conversion is: " + H + " " + S*100 + "% " + V + "%");
+	}
+}
