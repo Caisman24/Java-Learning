@@ -1,0 +1,152 @@
+public class Main {
+
+	public static void main(String[] args) {
+		TicTacToe game = new TicTacToe();
+		game.initialize();
+	}
+
+}
+
+import java.util.Scanner;
+// game has two bugs: X-X-X and for any dimension
+public class TicTacToe {
+	public int row, col;
+	public char[][] board = new char[3][3];
+	String player1, player2;
+
+	public TicTacToe() {
+		player1 = "default";
+		player2 = "default";
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++) {
+				board[i][j] = '*';
+			}
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public String getPlayer1() {
+		return player1;
+	}
+
+	public void setPlayer1(String player1) {
+		this.player1 = player1;
+	}
+
+	public String getPlayer2() {
+		return player2;
+	}
+
+	public void setPlayer2(String player2) {
+		this.player2 = player2;
+	}
+
+	public void printGameBoard() {
+		System.out.print("\n");
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				System.out.print(board[i][j] + " ");
+			}
+			System.out.print("\n");
+		}
+	}
+
+	public void initialize() {
+		System.out.print("First player name: ");
+		Scanner scanner = new Scanner(System.in);
+		setPlayer1(scanner.next());
+
+		System.out.print("Second player name: ");
+		setPlayer2(scanner.next());
+
+		boolean playing = true;
+		int turn = 0;
+		while (playing) {
+			printGameBoard();
+			turn++;
+
+			if (turn % 2 != 0) {
+				System.out.print("\n" + player1 + " has to move");
+
+			} else
+				System.out.print("\n" + player2 + " has to move");
+
+			System.out.print("\nEnter column: ");
+			col = scanner.nextInt() - 1;
+
+			System.out.print("Enter row: ");
+			row = scanner.nextInt() - 1;
+
+			if (turn % 2 != 0) {
+				board[row][col] = 'X';
+				if (gameOver('X')) {
+					playing = false;
+					printGameBoard();
+					System.out.print(player1 + " has won!");
+				}
+
+			} else {
+				board[row][col] = '0';
+				if (gameOver('0')) {
+					playing = false;
+					printGameBoard();
+					System.out.print(player2 + " has won!");
+				}
+			}
+
+		}
+	}
+
+	public boolean gameOver(char s) {
+		int c1 = 0, c2 = 0, c3 = 0, d1 = 0, d2 = 0; // c1-> j mereu 0, d1->i=j, d2-> i+j=3-1;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+
+				if (i == j && board[i][j] == s) {
+					d1++;
+					if (d1 == 3)
+						return true;
+				}
+
+				if (i + j == 3 - 1 && board[i][j] == s) {
+					d2++;
+					if (d2 == 3)
+						return true;
+				}
+
+				if (j == 0 && board[i][j] == s) {
+					c1++;
+					if (c1 == 3)
+						return true;
+				}
+
+				if (j == 1 && board[i][j] == s) {
+					c2++;
+					if (c2 == 3)
+						return true;
+				}
+
+				if (j == 2 && board[i][j] == s) {
+					c3++;
+					if (c3 == 3)
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+}

@@ -1,0 +1,98 @@
+
+public class Main {
+	 public static void main(String[] args) {
+		 Card cards= new Card();
+		 cards.removeCard();
+	 }
+}
+
+import java.util.HashMap;
+import java.util.Random;
+
+public class Card {
+	final int cardNumber = 52;
+	HashMap<Integer, String> hearts = new HashMap<>();
+	HashMap<Integer, String> spades = new HashMap<>();
+	HashMap<Integer, String> clubs = new HashMap<>();
+	HashMap<Integer, String> diamonds = new HashMap<>();
+
+	public Card() {
+		for (int i = 1; i < 14; i++) {
+			hearts.put(i, "Hearts");
+		}
+
+		for (int i = 1; i < 14; i++) {
+			hearts.put(i, "Spades");
+		}
+
+		for (int i = 1; i < 14; i++) {
+			hearts.put(i, "Clubs");
+		}
+
+		for (int i = 1; i < 14; i++) {
+			hearts.put(i, "Diamonds");
+		}
+	}
+import java.util.HashMap;
+import java.util.Random;
+
+public class Card {
+	final int cardNumber = 52;
+	HashMap<Integer, String> hearts = new HashMap<>();
+	HashMap<Integer, String> spades = new HashMap<>();
+	HashMap<Integer, String> clubs = new HashMap<>();
+	HashMap<Integer, String> diamonds = new HashMap<>();
+
+	public Card() {
+		for (int i = 1; i < 14; i++) {
+			hearts.put(i, "Hearts");
+		}
+
+		for (int i = 1; i < 14; i++) {
+			hearts.put(i, "Spades");
+		}
+
+		for (int i = 1; i < 14; i++) {
+			hearts.put(i, "Clubs");
+		}
+
+		for (int i = 1; i < 14; i++) {
+			hearts.put(i, "Diamonds");
+		}
+	}
+
+	public void removeCard() {
+		int cardNumber = 52;
+
+		Random randomNumber = new Random();
+		Random randomFigure = new Random();
+
+		do {
+			int number = randomNumber.nextInt(13) + 1;
+			int figure = randomFigure.nextInt(4); // 0=hearts, 1=spades, 2=clubs, 3=diamonds
+
+			if ((figure == 2) && (number > 8)) {
+				System.out.println("\nBINGOOOOOO!\nYou have extracted: " + number + " Clubs");
+				clubs.remove(number);
+				cardNumber--;
+				return;
+
+			} else if (figure == 0) {
+				System.out.println("Card extracted: " + number + " Hearts");
+				hearts.remove(number);
+				cardNumber--;
+
+			} else if (figure == 1) {
+				System.out.println("Card extracted: " + number + " Spades");
+				spades.remove(number);
+				cardNumber--;
+			} else {
+				System.out.println("Card extracted: " + number + " Diamonds");
+				diamonds.remove(number);
+				cardNumber--;
+
+			}
+		} while (cardNumber > 0);
+		return;
+	}
+}

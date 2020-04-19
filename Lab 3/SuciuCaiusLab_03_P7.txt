@@ -1,0 +1,118 @@
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		System.out.print("Enter the A string: ");
+		Scanner scanner = new Scanner(System.in);
+		String input = scanner.nextLine();
+		A objA = new A(input);
+
+		System.out.print("Enter the B string: ");
+		input = scanner.nextLine();
+		B objB = new B(input);
+
+		if (objB.doesContain(objA)) {
+			System.out.println("\nCompleted....waiting");
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			if (objB.checkEncryption(objA)) {
+				System.out.println("\t\nYour data has been encrypted!");
+			} else {
+				System.out.println("\t\nFailed encryption!");
+			}
+		} else
+			System.out.println("The strings don't match!! (the second one is not in the first)");
+	}
+}
+
+public class A {
+	private String str;
+
+	public A(String str) {
+		this.str = str;
+	}
+
+	public String getStr() {
+		return str;
+	}
+
+	public void setStr(String str) {
+		this.str = str;
+	}
+}
+
+import java.util.Random;
+
+public class B {
+	private char[] str;
+
+	public B(String str) {
+		this.str = str.toCharArray();
+	}
+
+	public char[] getStr() {
+		return str;
+	}
+
+	public void setStr(String str) {
+		this.str = str.toCharArray();
+	}
+
+	public boolean doesContain(A object) {
+		for (int i = 0; i < str.length; i++) {
+			if (object.getStr().indexOf(this.getStr()[i]) == -1) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private int[] createRandoms() {
+		int[] array = new int[58];
+		Random random = new Random();
+		System.out.print("\nThe value of the chars: ");
+		for (int i = 0; i < getStr().length; i++) {
+			int value = getStr()[i] - 'A'; // A is the first letter in ascii code
+			if (array[value] == 0) {
+				int rand = random.nextInt(100) + 1;
+				array[value] = rand;
+				System.out.print(array[value] + " ");
+			}
+		}
+		return array;
+	}
+
+	public boolean checkEncryption(A object) {
+		int[] array = createRandoms();
+		long sum = 0;
+		int value, appearances;
+		System.out.print("\nThe position is: ");
+
+		for (int i = 0; i < getStr().length; i++) {
+			value = getStr()[i] - 'A';
+			appearances = sumAppearances(object.getStr(), getStr()[i], array);
+			sum += appearances;
+
+		}
+		System.out.println("\nThe sum is: " + sum);
+		return (sum > 100);
+	}
+
+	public int sumAppearances(String str, char c, int[] array) {
+		int count = 0, value;
+
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == c) {
+				value = c - 'A';
+				count += array[value] + i + 1;
+				System.out.print((i+1) + " ");
+			}
+		}
+		return count;
+	}
+}
