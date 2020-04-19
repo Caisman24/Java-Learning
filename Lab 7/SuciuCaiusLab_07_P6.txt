@@ -1,0 +1,127 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class Main {
+	static Scanner scanner = new Scanner(System.in);
+
+	public static void main(String[] args) {
+		ArrayList<Employee> listEmployee = getEmployees();
+		System.out.print("\nNormal list: ");
+		showEmployees(listEmployee);
+
+		Collections.sort(listEmployee);
+		System.out.print("\nList after sorting: ");
+		showEmployees(listEmployee);
+
+		System.out.print("\nSORTED BY NAME AND WAGE");
+		Collections.sort(listEmployee, new SortComparator());
+		showEmployees(listEmployee);
+
+		System.out.println("\nSORTED BY AGE");
+		Comparator<Employee> c2 = (Employee o1, Employee o2) -> o2.getAge() - o1.getAge(); //descend sort age
+		Collections.sort(listEmployee,c2);
+		showEmployees(listEmployee);
+	}
+
+	private static ArrayList<Employee> getEmployees() {
+		ArrayList<Employee> employees = new ArrayList<Employee>();
+		System.out.print("Enter the number of employees: ");
+		int number = scanner.nextInt();
+
+		String name;
+		int age, wage;
+		for (int i = 0; i < number; i++) {
+			System.out.print("\nEmployee[" + (i + 1) + "]\nName: ");
+			name = scanner.next();
+			System.out.print("Age: ");
+			age = scanner.nextInt();
+			System.out.print("Wage: ");
+			wage = scanner.nextInt();
+
+			Employee aux = new Employee();
+			aux.setName(name);
+			aux.setAge(age);
+			aux.setWage(wage);
+			employees.add(aux);
+		}
+		return employees;
+	}
+
+	private static void showEmployees(ArrayList<Employee> list) {
+		try {
+			if (list.size() == 0)
+				throw new Exception("The list is NULL!");
+			for (Employee i : list) { // normal Print with comparable function
+				System.out.println("\nName: " + i.getName());
+				System.out.println("Age: " + i.getAge());
+				System.out.println("Wage: " + i.getWage());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+import java.util.Comparator;
+
+public class SortComparator implements Comparator<Employee> {
+
+	public int compare(Employee o1, Employee o2) {
+		if (o1.getName() != o2.getName()) {
+			o1.getName().compareTo(o2.getName());
+		}
+		return o2.getWage() - o1.getWage();
+	}
+
+}
+
+
+public class Employee implements Comparable<Employee> {
+	private String name;
+	private int age;
+	private int wage;
+
+	public Employee() {
+	}
+
+	public Employee(String name, int age, int wage) {
+
+		this.name = name;
+		this.age = age;
+		this.wage = wage;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getWage() {
+		return wage;
+	}
+
+	public void setWage(int wage) {
+		this.wage = wage;
+	}
+
+	@Override
+	public int compareTo(Employee o) {
+		return this.getName().compareTo(o.getName()); // ascend sorting name
+	}
+
+}
+
