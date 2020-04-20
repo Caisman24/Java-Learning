@@ -1,0 +1,196 @@
+
+public class Student implements Comparable<Student> {
+	String nume_prenume;
+	int array[];
+	int group;
+	double average;
+
+	public Student() {
+		nume_prenume = "default";
+		array = new int[5];
+		group = 0; // default
+		average = 0;
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		System.out.println("Object is destroyed by the Garbage Collector");
+	}
+
+	public String getNume_prenume() {
+		return nume_prenume;
+	}
+
+	public void setNume_prenume(String nume_prenume) {
+		this.nume_prenume = nume_prenume;
+	}
+
+	public int[] getArray() {
+		return array;
+	}
+
+	public void setArray(int[] array) {
+		this.array = array;
+	}
+
+	public int getGroup() {
+		return group;
+	}
+
+	public void setGroup(int group) {
+		this.group = group;
+	}
+
+	public double getAverage() {
+		return average;
+	}
+
+	public void setAverage(double average) {
+		this.average = average;
+	}
+
+	public void calculateAverage() {
+		double sum = 0;
+		for (int i = 0; i < 5; i++) {
+			sum += array[i];
+		}
+		setAverage(sum / 5);
+	}
+
+	@Override
+	public int compareTo(Student o) {
+		if (this.group != o.getGroup()) {
+			return this.group-o.group;
+		}
+		return this.nume_prenume.compareTo(o.nume_prenume);
+	}
+
+}
+
+
+import java.util.Arrays;
+import readStrInt.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		ReadInt readInt = new ReadInt(); // class
+		int numberStudents = readInt.read("number of students");
+
+		Student arrayObjects[] = new Student[numberStudents];
+
+		String stringInput;
+		int numberInput;
+		int array[] = new int[5];
+
+		ReadStrings readString = new ReadStrings(); // class
+
+		for (int i = 0; i < numberStudents; i++) {
+			arrayObjects[i]=new Student();
+			stringInput = readString.read(); // read Name
+			arrayObjects[i].setNume_prenume(stringInput);
+
+			array[0] = readInt.read("grade");
+			
+			array[1] = readInt.read("grade");
+			array[2] = readInt.read("grade");
+			array[3] = readInt.read("grade");
+			array[4] = readInt.read("grade");
+			arrayObjects[i].setArray(array); // set array
+
+			numberInput = readInt.readGroup();
+			arrayObjects[i].setGroup(numberInput); // set group
+
+			arrayObjects[i].calculateAverage(); // setAverage in class
+			if (array[0]<5) System.out.println("\nI see you didn't study!"); // if first number <5
+		}
+		
+		
+		Arrays.sort(arrayObjects);
+		displayStudents(arrayObjects);
+
+	}
+
+	static void displayStudents(Student array[]) {
+		for (int i = 0; i < array.length; i++) {
+			System.out.println("\nName: "+array[i].getNume_prenume());
+			System.out.println("Array:"+Arrays.toString(array[i].getArray()));
+			System.out.println("Group: "+array[i].getGroup());
+			System.out.println("Average:"+array[i].getAverage());
+		}
+	}
+
+}
+
+package readStrInt;
+
+import java.io.DataInputStream;
+
+public class ReadStrings {
+	DataInputStream inputStream = new DataInputStream(System.in);
+	String input;
+	
+	public ReadStrings() {
+		input="default";
+	}
+	
+	@SuppressWarnings("deprecation")
+	public String read() {
+		try {
+			System.out.print("\nEnter the name of the student: ");
+			input=inputStream.readLine();
+			
+		} catch (Exception e) {
+			System.out.println("Error at reading string!");
+		}
+		return input;
+	}
+}
+
+package readStrInt;
+import java.util.Scanner;
+
+public class ReadInt {
+	Scanner scanner = new Scanner(System.in);
+	int number;
+
+	public ReadInt() {
+		number = 0; // default
+	}
+
+	public int read(String message) {
+		System.out.print("Enter the " + message + ": ");
+		number = scanner.nextInt();
+		if (number < 1 || number > 10) {
+			try {
+				throw new MarkOutOfRange("Number not in range! [1,10]");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.print("\nEnter a new number that is in range: ");
+				number = scanner.nextInt();
+			}
+		}
+		return number;
+	}
+	
+	public int readGroup() {
+		System.out.print("Enter the group number: ");
+		number=scanner.nextInt();
+		return number;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+}
+
+package readStrInt;
+
+public class MarkOutOfRange extends Exception {
+	public MarkOutOfRange(String message) {
+		super(message);
+	}
+
+}
+
