@@ -8,7 +8,7 @@ public class Main {
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		System.out.println("Enter the size of matrix MxN: ");
+		System.out.print("Enter the size of matrix MxN: ");
 		int input, input2;
 		input = scanner.nextInt();
 		input2 = scanner.nextInt();
@@ -20,7 +20,7 @@ public class Main {
 		long duration = (endTime - startTime) / 1000000;
 		System.out.println("Image creation took: " + duration + " ms");
 
-		System.out.println("\nEnter specific index of RGB to eliminate: ");
+		System.out.print("\nEnter specific index of RGB to eliminate: ");
 		input = scanner.nextInt();
 		startTime = System.nanoTime();
 		object.eliminate(input, input, input);
@@ -28,7 +28,7 @@ public class Main {
 		duration = (endTime - startTime) / 1000000;
 		System.out.println("Elimination of specific RGB took: " + duration + " ms");
 
-		System.out.println("\nEnter the color you want to delete (R/G/B): ");
+		System.out.print("\nEnter the color you want to delete (R/G/B): ");
 		String choice = scanner.next();
 		startTime = System.nanoTime();
 		object.eliminateOne(choice);
@@ -41,7 +41,6 @@ public class Main {
 		endTime = System.nanoTime();
 		duration = (endTime - startTime) / 1000000;
 		System.out.println("Transform to grey took: " + duration + " ms");
-
 	}
 }
 
@@ -52,20 +51,22 @@ import java.util.Random;
 
 public class MyImage {
 	protected int m, n;
-	Pixel[][] mat = new Pixel[m][n];
+	Pixel[][] mat;
 
 	public MyImage(int m, int n) {
 		this.m = m;
 		this.n = n;
+		mat = new Pixel[m][n];
 	}
 
 	public void createImage() {
 		Random random = new Random();
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
-				mat[i][j].R = random.nextInt(256);
-				mat[i][j].G = random.nextInt(256);
-				mat[i][j].B = random.nextInt(256);
+				mat[i][j] = new Pixel();
+				mat[i][j].setR(random.nextInt(256));
+				mat[i][j].setG(random.nextInt(256));
+				mat[i][j].setB(random.nextInt(256));
 			}
 		}
 	}
@@ -73,12 +74,12 @@ public class MyImage {
 	public void eliminate(int r, int g, int b) {
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
-				if (mat[i][j].R < r)
-					mat[i][j].R = 0;
-				if (mat[i][j].G < g)
-					mat[i][j].G = 0;
-				if (mat[i][j].B < b)
-					mat[i][j].B = 0;
+				if (mat[i][j].getR() < r)
+					mat[i][j].setR(0);
+				if (mat[i][j].getG() < g)
+					mat[i][j].setG(0);
+				if (mat[i][j].getB() < b)
+					mat[i][j].setB(0);
 			}
 		}
 	}
@@ -88,22 +89,21 @@ public class MyImage {
 		case "R": {
 			for (int i = 0; i < m; i++) {
 				for (int j = 0; j < n; j++)
-					mat[i][j].R = 0;
+					mat[i][j].setR(0);
 			}
 		}
 		case "G": {
 			for (int i = 0; i < m; i++) {
 				for (int j = 0; j < n; j++)
-					mat[i][j].G = 0;
+					mat[i][j].setG(0);
 			}
 		}
 		case "B": {
 			for (int i = 0; i < m; i++) {
 				for (int j = 0; j < n; j++)
-					mat[i][j].B = 0;
+					mat[i][j].setB(0);
 			}
 		}
-
 		default:
 			System.out.println("\nWrong input for deleting color!");
 		}
@@ -113,10 +113,10 @@ public class MyImage {
 		double number;
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
-				number = 0.21 * mat[i][j].R + 0.71 * mat[i][j].G + 0.07 * mat[i][j].B;
-				mat[i][j].R = (int) number;
-				mat[i][j].G = (int) number;
-				mat[i][j].B = (int) number;
+				number = 0.21 * mat[i][j].getR() + 0.71 * mat[i][j].getG() + 0.07 * mat[i][j].getB();
+				mat[i][j].setR((int) number);
+				mat[i][j].setG((int) number);
+				mat[i][j].setB((int) number);
 			}
 		}
 	}
@@ -142,15 +142,47 @@ public class MyImage {
 package imageProcessor;
 
 public class Pixel {
-	protected int R, G, B;
+	protected int r, g, b;
 
-	public Pixel(int R, int G, int B) {
-		assert ((R > 255) || (R < 0)) : "input error at red color: " + R;
-		assert ((G > 255) || (G < 0)) : "input error at green color: " + G;
-		assert ((B > 255) || (B < 0)) : "input error at blue color: " + B;
-		this.R = R;
-		this.G = G;
-		this.B = B;
+	public Pixel() {
+		this.r = 0;
+		this.g = 0;
+		this.b = 0;
+	}
+
+	public Pixel(int r, int g, int b) {
+		assert ((r > 255) || (r < 0)) : "input error at red color: " + r;
+		assert ((g > 255) || (g < 0)) : "input error at green color: " + g;
+		assert ((b > 255) || (b < 0)) : "input error at blue color: " + b;
+		this.r = r;
+		this.r = g;
+		this.r = b;
+	}
+
+	public int getR() {
+		return r;
+	}
+
+	public void setR(int r) {
+		assert (r >= 0 && r <= 255) : "input error at red color:" + r;
+		this.r = r;
+	}
+
+	public int getG() {
+		return this.g;
+	}
+
+	public void setG(int g) {
+		assert ((g > 255) || (g < 0)) : "input error at green color: " + g;
+		this.g = g;
+	}
+
+	public int getB() {
+		return this.b;
+	}
+
+	public void setB(int b) {
+		assert ((b > 255) || (b < 0)) : "input error at blue color: " + b;
+		this.b = b;
 	}
 }
-
