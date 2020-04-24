@@ -1,0 +1,25 @@
+import java.io.*;
+import static java.io.StreamTokenizer.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer streamTokenizer = new StreamTokenizer(bufferedReader);
+
+		try {
+			System.out.print("Enter value: ");
+			while (streamTokenizer.nextToken() != TT_EOF) {
+				if (streamTokenizer.ttype == TT_WORD) {
+					System.out.println("String: " + streamTokenizer.sval);
+				} else if (streamTokenizer.ttype == TT_NUMBER) {
+					System.out.println("Number: " + (int) streamTokenizer.nval);
+				}
+				System.out.print("\nEnter value: ");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+}

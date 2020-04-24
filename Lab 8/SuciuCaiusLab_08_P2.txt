@@ -1,0 +1,30 @@
+import java.io.*;
+import static java.io.StreamTokenizer.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		BufferedReader bufferedReader;
+		try {
+			bufferedReader = new BufferedReader(new FileReader("test.txt"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		StreamTokenizer streamTokenizer = new StreamTokenizer(bufferedReader);
+		try {
+			while (streamTokenizer.nextToken() != TT_EOF) {
+				if (streamTokenizer.ttype == TT_WORD) {
+					System.out.println("String: " + streamTokenizer.sval);
+				} else if (streamTokenizer.ttype == TT_NUMBER) {
+					System.out.println("Number: " + (int) streamTokenizer.nval);
+				}
+
+			}
+			System.out.println("\n\t----End of file----");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+}

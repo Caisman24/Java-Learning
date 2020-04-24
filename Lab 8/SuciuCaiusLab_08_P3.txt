@@ -1,0 +1,129 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
+import java.text.NumberFormat;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("test.in")));
+			StreamTokenizer streamTokenizer = new StreamTokenizer(bufferedReader);
+			streamTokenizer.whitespaceChars('/', '/');
+			streamTokenizer.wordChars(' ', ' ');
+			int iterator = 0;
+
+			NumberFormat nf = NumberFormat.getInstance();
+			nf.setGroupingUsed(false); // no split after 3 numbers
+
+			while (streamTokenizer.ttype != StreamTokenizer.TT_EOF) {
+				int token = streamTokenizer.nextToken();
+				if (token == StreamTokenizer.TT_NUMBER) {
+					if (iterator == 1) {
+						int x = (int) streamTokenizer.nval;
+						getYourMonth(x); // switch case
+					} else {
+						if (iterator == 0) { // day
+							if (streamTokenizer.nval < 10) {
+								System.out.print("0" + nf.format(streamTokenizer.nval) + " ");
+							} else
+								System.out.print(nf.format(streamTokenizer.nval) + " ");
+						} else { // year
+							System.out.print(nf.format(streamTokenizer.nval));
+							leapYear((int)streamTokenizer.nval);
+						}
+					}
+					iterator++;
+					if (iterator > 2) {
+						iterator = 0;
+						System.out.print("\n");
+					}
+				}
+			}
+			System.out.println("\nEnd of file(EOF)");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		exitProgram();
+	}
+
+	public static void getYourMonth(int x) {
+		switch (x) {
+		case 1:
+			System.out.println("January ");
+			break;
+		case 2:
+			System.out.println("February ");
+			break;
+		case 3:
+			System.out.println("March ");
+			break;
+		case 4:
+			System.out.println("April ");
+			break;
+		case 5:
+			System.out.println("May ");
+			break;
+		case 6:
+			System.out.println("June ");
+			break;
+		case 7:
+			System.out.println("July ");
+			break;
+		case 8:
+			System.out.println("August ");
+			break;
+		case 9:
+			System.out.println("September ");
+			break;
+		case 10:
+			System.out.println("October ");
+			break;
+		case 11:
+			System.out.println("November ");
+			break;
+		case 12:
+			System.out.print("December ");
+			break;
+		default:
+			System.out.print("Invalid month!");
+			break;
+		}
+	}
+
+	public static void exitProgram() {
+		System.out.println("\nPress X to exit the program");
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Your input: ");
+		String key = scanner.next();
+		while (!key.equalsIgnoreCase("X")) {
+			System.out.print("\nTry again\nYour input: ");
+			key = scanner.next();
+		}
+		System.out.print("<<<<<Program terminated>>>>>");
+	}
+
+	public static void leapYear(int year) {
+		boolean isLeap = false;
+		if (year % 4 == 0) {
+			if (year % 100 == 0) {
+				if (year % 400 == 0)
+					isLeap = true;
+				else
+					isLeap = false;
+			} else
+				isLeap = true;
+		} else {
+			isLeap = false;
+		}
+
+		if (isLeap == true)
+			System.out.print("\n"+year + " is a Leap Year.\n");
+	}
+}

@@ -1,0 +1,36 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Main {
+
+	public static void main(String[] args) throws FileNotFoundException {
+
+		FileInputStream in = new FileInputStream("data.dat");
+		FileInputStream inPrivate = new FileInputStream("private.dat");
+		FileOutputStream out = new FileOutputStream("out.dat");
+
+		byte buf[] = new byte[64]; // for publicKey
+		byte buf2[] = new byte[64]; // for privateKey
+
+		try {
+
+			while (in.read(buf) != -1 && inPrivate.read(buf2) != -1) {
+				for (int i = 0; i < 64; i++) {
+					Byte buf3 = new Byte((byte) (buf[i] ^ buf2[i]));
+					out.write(buf3);
+				}
+
+			}
+
+			in.close();
+			out.close();
+			inPrivate.close();
+
+		} catch (IOException e) {
+			System.out.println("Error at reading from file!");
+		}
+	}
+
+}
