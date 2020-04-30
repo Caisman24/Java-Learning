@@ -1,0 +1,78 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+
+public class Main {
+
+	public static void main(String[] args) {
+		String csvFile = "C:\\Users\\Caisman\\Desktop\\data2.csv";
+
+		try {
+			boolean i = false, u = false, o = false, p = false; // if files are created
+			String line = "";
+			String csvSplit = ",";
+			BufferedReader br = new BufferedReader(new FileReader(csvFile));
+
+			File bornInDecember = new File("december.txt");
+			File landLine = new File("landLine.txt");
+			File andrewNicolae = new File("specificName.txt");
+			File facebookUrl = new File("facebookUrl.txt");
+
+			line = br.readLine();
+
+			while (line != null) {
+				String[] dataInFile = line.split(csvSplit);
+
+				if (dataInFile[3].contains(".12.")) { // people that are born on DECEMBER
+					if (i == false) {
+						bornInDecember.createNewFile();
+						i = true;
+					}
+					FileWriter fWriter = new FileWriter(bornInDecember, true);
+					fWriter.write(line);
+					fWriter.close();
+				}
+
+				if (dataInFile[2].charAt(0) == '2' || dataInFile[2].startsWith("3")) { // people with landline phone
+					if (u == false) {
+						landLine.createNewFile();
+						u = true;
+					}
+					FileWriter fWriter = new FileWriter(landLine, true);
+					fWriter.write(line);
+					fWriter.close();
+				}
+
+				if (dataInFile[0].contentEquals("Andrei") || dataInFile[0].contentEquals("Nicolae")) {
+					if (o == false) { // file not created
+						andrewNicolae.createNewFile();
+						o = true;
+					}
+					FileWriter fWriter = new FileWriter(andrewNicolae, true);
+					fWriter.write(line);
+					fWriter.close();
+				}
+
+				if (dataInFile[4].contains("/profile.php?id=")) { // people with NOT CUSTOMIZED URL FACEBOOK
+					if (p == false) {
+						p = true;
+						facebookUrl.createNewFile();
+					}
+					FileWriter fWriter = new FileWriter(facebookUrl, true);
+					fWriter.write(line);
+					fWriter.close();
+				}
+
+				line = br.readLine();
+			}
+
+			br.close(); // close CSV FILE
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
