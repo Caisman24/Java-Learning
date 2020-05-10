@@ -1,0 +1,45 @@
+import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		BigInteger no1, no2;
+
+		try {
+			System.out.print("Enter 2 numbers: ");
+			no1 = scanner.nextBigInteger();
+			no2 = scanner.nextBigInteger();
+			scanner.close();
+
+			MyThread firsThread = new MyThread(no1, no2);
+			firsThread.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+
+import java.math.BigInteger;;
+
+public class MyThread extends Thread {
+	BigInteger no1, no2;
+
+	public MyThread(BigInteger no1, BigInteger no2) {
+		this.no1 = no1;
+		this.no2 = no2;
+	}
+
+	@Override
+	public void run() {
+		System.out.println("GCD for " + no1 + " and " + no2 + " is: " + calculateGCD());
+	}
+
+	public BigInteger calculateGCD() {
+		return no1.gcd(no2);
+	}
+
+}

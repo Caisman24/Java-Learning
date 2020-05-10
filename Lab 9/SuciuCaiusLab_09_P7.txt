@@ -1,0 +1,86 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		System.out.print("Enter number of persons for lottery: ");
+		Scanner scanner = new Scanner(System.in);
+		int numberOfPersons = scanner.nextInt();
+		scanner.close();
+
+		Lottery lottery = new Lottery();
+		System.out.println("The game is on!");
+
+		try {
+			for (int i = 0; i < numberOfPersons; i++) {
+				Thread extractionTickets = new Thread(new ExtractionProcess(lottery));
+				extractionTickets.start();
+				extractionTickets.join(); // waiting for the thread to die
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
+public class Lottery {
+	ArrayList<Boolean> tickets = new ArrayList<Boolean>();
+	public int winningTicket;
+
+	public Lottery() {
+		initiateTickets();
+	}
+
+	public void initiateTickets() {
+		generateWinningTicket();
+
+		for (int i = 0; i < 1000; i++) {
+			if (i == winningTicket)
+				tickets.add(true); // generate the ticket at the correct index
+			else
+				tickets.add(false);
+		}
+
+		Collections.shuffle(tickets); // rearrange the tickets
+	}
+
+	public void generateWinningTicket() {
+		Random rand = new Random();
+		this.winningTicket = rand.nextInt(1000) + 1; // +1 because random goes from 0-999
+		System.out.println("The winning ticket is: " + winningTicket); // just for testing
+	}
+}
+
+import java.util.Random;
+
+public class ExtractionProcess implements Runnable {
+	Lottery lottery;
+
+	public ExtractionProcess(Lottery lottery) {
+		this.lottery = lottery;
+	}
+
+	@Override
+	public void run() {
+		extractTickets(lottery);
+
+	}
+
+	public synchronized void extractTickets(Lottery lottery) {
+		Random random = new Random();
+		int extractedNumber = random.nextInt(1000) + 1;
+		System.out.println("\nThe number extracted, is: " + extractedNumber);
+		if (lottery.tickets.get(extractedNumber)) {
+			System.out.println("\nWe have a winner!\nWith number " + extractedNumber);
+		} else {
+			System.out.println("Please come again!");
+		}
+	}
+
+}

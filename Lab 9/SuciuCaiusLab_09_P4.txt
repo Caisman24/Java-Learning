@@ -1,0 +1,77 @@
+public class Main {
+
+	public static void main(String[] args) {
+		NumberValue value = new NumberValue(5);
+
+		ThreadIncrements first = new ThreadIncrements(value);
+		ThreadDecrements second = new ThreadDecrements(value);
+		ThreadIncrements third = new ThreadIncrements(value);
+
+		first.start();
+		second.start();
+		third.start(); // 5+4-3 = 6
+
+		System.out.println("Value of the number is: " + value.value);
+	}
+
+}
+
+
+public class ThreadDecrements extends Thread {
+	NumberValue numberValue;
+
+	public ThreadDecrements(NumberValue value) {
+		this.numberValue = value;
+	}
+
+	@Override
+	public void run() {
+		decrement();
+	}
+
+	public void decrement() {
+		synchronized (numberValue.value) {
+			try {
+				numberValue.value -= 3;
+			} catch (Exception e) {
+				System.out.println("Thread interrupted.");
+			}
+
+		}
+	}
+
+}
+
+
+public class ThreadIncrements extends Thread {
+	NumberValue numberValue;
+
+	public ThreadIncrements(NumberValue value) {
+		this.numberValue = value;
+	}
+
+	@Override
+	public void run() {
+		increment();
+	}
+
+	public void increment() {
+		synchronized (numberValue.value) {
+			try {
+				numberValue.value += 2;
+			} catch (Exception e) {
+				System.out.println("Thread interrupted.");
+			}
+		}
+	}
+
+}
+
+
+public class NumberValue {
+	Integer value;
+
+	public NumberValue(Integer value) {
+		this.value = value;
+	}
+}

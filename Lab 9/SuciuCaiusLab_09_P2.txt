@@ -1,0 +1,72 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		try {
+			Number number = new Number();
+			Thread numbeThread = new Thread(number);
+			numbeThread.start();
+
+			Circle circle = new Circle(number);
+			Thread circleThread = new Thread(circle);
+			circleThread.start();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class Number implements Runnable {
+	int[] numbers = new int[30];
+
+	public Number() {}
+
+	@Override
+	public void run() {
+		generateNumbers();
+		displayNumbers();
+	}
+
+	public void generateNumbers() {
+		Random rand = new Random();
+		for (int i = 0; i < 30; i++) {
+			numbers[i] = rand.nextInt(30) + 1;
+		}
+	}
+
+	public void displayNumbers() {
+		System.out.println("Array: " + Arrays.toString(numbers));
+	}
+
+}
+
+
+public class Circle implements Runnable {
+	Number number; // to use the numbers generated before
+
+	public Circle(Number number) {
+		this.number = number;
+	}
+
+	public void calculateArea(int[] array) { // display area
+		int numberOfCircle = 0;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] % 3 == 0) {
+				numberOfCircle++;
+				System.out.print("\nCircle[" + numberOfCircle + "] area is: " + Math.PI * Math.pow(array[i], 2));
+			}
+		}
+
+	}
+
+	@Override
+	public void run() {
+		calculateArea(number.numbers);
+	}
+}
