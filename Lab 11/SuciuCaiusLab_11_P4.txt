@@ -1,0 +1,92 @@
+
+public class Main {
+	public static void main(String[] args) {
+		DataInfoApp app = new DataInfoApp();
+		app.setVisible(true);
+	}
+}
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.*;
+
+public class DataInfoApp extends JFrame {
+	private JTextField leftTextField;
+	private JTextField rightTextField;
+	private JLabel label;
+	JButton resultButton;
+
+	private static final long serialVersionUID = 1L; // serialization Runtime
+
+	public DataInfoApp() {
+		initUI();
+	}
+
+	private void initUI() {
+		setSize(new Dimension(350, 450));
+		setTitle("Data Information Application");
+		setBackground(Color.GREEN);
+		setLayout(null);
+
+		leftTextField = new JTextField("Name");
+		leftTextField.setBounds(50, 25, 230, 30);
+		leftTextField.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) { // for MOUSE ENTER
+				if (leftTextField.getText().equals("Name"))
+					leftTextField.setText("");
+			}
+
+			public void mouseExited(MouseEvent e) {
+				if (leftTextField.getText().trim().length() == 0) {
+					leftTextField.setText("Name");
+				}
+			}
+		});
+		add(leftTextField);
+
+		rightTextField = new JTextField("Group");
+		rightTextField.setBounds(50, 55, 230, 30);
+		rightTextField.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (rightTextField.getText().equals("Group"))
+					rightTextField.setText("");
+			}
+
+			public void mouseExited(MouseEvent e) {
+				if (rightTextField.getText().trim().length() == 0) {
+					rightTextField.setText("Group");
+				}
+			}
+		});
+		add(rightTextField);
+
+		label = new JLabel("Waiting for your input", SwingConstants.CENTER);
+		label.setBounds(35, 225, 250, 30);
+		add(label);
+
+		resultButton = new JButton("Result");
+		resultButton.setBounds(115, 350, 100, 30);
+		add(resultButton);
+
+		resultButton.addActionListener(e -> handle(e));
+		setVisible(true);
+	}
+
+	private void handle(ActionEvent e) {
+		String name = leftTextField.getText();
+		String group = rightTextField.getText();
+
+		if ((name.equals("Name") || group.equals("Group"))) { // if user just clicked without editing
+			label.setForeground(Color.red);
+			label.setText("INCORRECT INPUT!");
+		} else if (name.trim().length() == 0 || group.trim().length() == 0) { // check for whiteSpaces
+			label.setForeground(Color.red);
+			label.setText("You have to add details at name/group");
+		} else { // everything is OK
+			label.setForeground(new Color(122, 12, 129));
+			label.setText(name + " is from group: " + group);
+		}
+	}
+}

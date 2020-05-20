@@ -1,0 +1,86 @@
+public class Main {
+	public static void main(String[] args) {
+		new DataInfoApp();
+	}
+}
+
+public class RGBIndexOutOfBounds extends Exception {
+	
+	private static final long serialVersionUID = 1L;
+
+	public RGBIndexOutOfBounds(String message) {
+		super(message);
+	}
+}
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
+
+public class DataInfoApp extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+
+	private JTextField jTextField1;
+	private JTextField jTextField2;
+	private JTextField jTextField3;
+	private JLabel label;
+	private JButton button;
+
+	public DataInfoApp() {
+		init();
+	}
+
+	public void init() {
+		setSize(new Dimension(400, 200));
+		setTitle("Simple RGB chooser");
+		setLayout(null);
+
+		JLabel reqLabel = new JLabel("Enter a RGB color (0-255,0-255,0-255)");
+		reqLabel.setBounds(80, 5, 270, 30);
+		add(reqLabel);
+
+		jTextField1 = new JTextField("Red Color");
+		jTextField1.setBounds(50, 40, 100, 30);
+		add(jTextField1);
+
+		jTextField2 = new JTextField("Red Color");
+		jTextField2.setBounds(50, 70, 100, 30);
+		add(jTextField2);
+
+		jTextField3 = new JTextField("Red Color");
+		jTextField3.setBounds(50, 100, 100, 30);
+		add(jTextField3);
+
+		button = new JButton("Results: ");
+		button.setBounds(50, 140, 100, 30);
+		add(button);
+
+		label = new JLabel("Result");
+		label.setBounds(200, 140, 150, 30);
+		add(label);
+
+		button.addActionListener(e -> actionPerformed(e));
+		setVisible(true);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		try {
+			String redValue = jTextField1.getText();
+			String greenValue = jTextField2.getText();
+			String blueValue = jTextField3.getText();
+
+			if ((Integer.parseInt(redValue) < 0) || (Integer.parseInt(redValue) > 255)
+					|| (Integer.parseInt(greenValue) < 0) || (Integer.parseInt(greenValue) > 255)
+					|| (Integer.parseInt(blueValue) < 0) || (Integer.parseInt(blueValue) > 255))
+				throw new RGBIndexOutOfBounds("A value has not been correctly chosen");
+
+			label.setText(redValue + " " + greenValue + " " + blueValue);
+			label.setForeground(
+					new Color(Integer.parseInt(redValue), Integer.parseInt(greenValue), Integer.parseInt(blueValue)));
+		} catch (RGBIndexOutOfBounds ex) {
+			label.setText("One or more values incorrect");
+			label.setForeground(Color.RED);
+		}
+	}
+}

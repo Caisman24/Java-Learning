@@ -1,0 +1,149 @@
+
+public class Main {
+	public static void main(String[] args) {
+		new SignUp();
+	}
+}
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
+
+public class SignUp extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	
+	private JTextField name;
+	private JTextField surname;
+	private Choice yearOfStudy;
+	private Choice faculty;
+	private Choice course;
+	private JCheckBox financingPayed;
+	private JCheckBox financingFree;
+	private JButton button;
+
+	public SignUp() {
+		initGUI();
+	}
+
+	private void initGUI() {
+		setSize(new Dimension(350, 480));
+		setTitle("Sign up");
+		setLayout(null);
+
+		addName();
+
+		addSurname();
+
+		addYear();
+
+		addSpecialization();
+
+		addCourseLabel();
+
+		addFinancing();
+
+		addSignUp();
+
+		button.addActionListener(evt -> handle(evt));
+	}
+
+	private void addCourseLabel() {
+		JLabel courseLabel = new JLabel("Course");
+		courseLabel.setBounds(15, 210, 125, 15);
+		add(courseLabel);
+		course = new Choice();
+		course.setBounds(15, 225, 125, 30);
+		course.add("Java");
+		course.add("Android fundamentals");
+		course.add("Android advanced");
+		course.add("Python");
+		add(course);
+	}
+
+	private void addName() {
+		JLabel nameLabel = new JLabel("Name");
+		nameLabel.setBounds(15, 15, 100, 10);
+		add(nameLabel);
+		name = new JTextField();
+		name.setBounds(15, 25, 100, 30);
+		add(name);
+	}
+
+	private void addSurname() {
+		JLabel surnameLabel = new JLabel("Surname");
+		surnameLabel.setBounds(15, 60, 100, 10);
+		add(surnameLabel);
+		surname = new JTextField();
+		surname.setBounds(15, 70, 100, 30);
+		add(surname);
+	}
+
+	private void addSpecialization() {
+		JLabel facultyLabel = new JLabel("Faculty");
+		facultyLabel.setBounds(15, 155, 125, 15);
+		add(facultyLabel);
+		faculty = new Choice();
+		faculty.setBounds(15, 170, 125, 30);
+		faculty.add("AC");
+		faculty.add("ETTI");
+		faculty.add("IE");
+		faculty.add("TCM");
+		faculty.add("IMM");
+		add(faculty);
+		setVisible(true);
+	}
+
+	private void addYear() {
+		JLabel yearLabel = new JLabel("Year of study");
+		yearLabel.setBounds(15, 105, 100, 15);
+		add(yearLabel);
+		yearOfStudy = new Choice();
+		yearOfStudy.setBounds(15, 120, 125, 30);
+		yearOfStudy.add("1st Year");
+		yearOfStudy.add("2nd Year");
+		yearOfStudy.add("3rd Year");
+		yearOfStudy.add("4th Year");
+		add(yearOfStudy);
+	}
+
+	private void addFinancing() {
+		JLabel financingLabel1 = new JLabel("Financing");
+		financingLabel1.setBounds(15, 260, 125, 15);
+		add(financingLabel1);
+		financingFree = new JCheckBox("Tax");
+		financingFree.setBounds(15, 275, 100, 30);
+		add(financingFree);
+
+		financingPayed = new JCheckBox("Budget");
+		financingPayed.setBounds(15, 295, 100, 30);
+		add(financingPayed);
+	}
+
+	private void addSignUp() {
+		button = new JButton("Sign Up");
+		button.setBounds(15, 330, 100, 30);
+		add(button);
+		setVisible(true);
+	}
+
+	private void handle(ActionEvent evt) {
+		setSize(new Dimension(350, 600));
+		remove(button);
+		JLabel resultLabel = new JLabel("Registration successful!");
+		resultLabel.setBounds(15, 355, 250, 15);
+		add(resultLabel);
+		JTextArea resultTextArea = new JTextArea();
+		resultTextArea.setBounds(15, 370, 300, 120);
+		add(resultTextArea);
+		if (financingPayed.isSelected()) {
+			resultTextArea.setText("Name: " + name.getText() + "\nSurname: " + surname.getText() + "\nFaculty: "
+					+ faculty.getSelectedItem() + "\nYear of Study: " + yearOfStudy.getSelectedItem()
+					+ "\nFinancing: Tax" + "\nCourse selected: " + course.getSelectedItem());
+		} else if (financingFree.isSelected()) {
+			resultTextArea.setText("Name: " + name.getText() + "\nSurname: " + surname.getText() + "\nFaculty: "
+					+ faculty.getSelectedItem() + "\nYear of Study: " + yearOfStudy.getSelectedItem()
+					+ "\nFinancing: Budget" + "\nCourse selected: " + course.getSelectedItem());
+		}
+	}
+}
