@@ -1,0 +1,55 @@
+public class Main {
+	public static void main(String[] args) {
+		new GridCalculator();
+	}
+}
+
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+
+public class GridCalculator {
+	JFrame frame;
+
+	public GridCalculator() {
+		initUI();
+	}
+
+	public void initUI() {
+		frame = new JFrame("GridLayout Application");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(400, 400);
+
+		GridLayout grid = new GridLayout(5, 3, 10, 10); // set the rows and cols of the grid, as well the space
+
+		frame.setLayout(grid); // what layout we want to use for our frame
+		JTextArea text = new JTextArea();
+		text.setText("Result: ");
+		text.setEditable(false);
+		frame.add(text);
+
+		addOperations(); // add first 2 cols
+
+		addNumbers(); // add buttons
+
+		frame.setVisible(true);
+	}
+
+	private void addNumbers() {
+		JButton[] arrayBtn = new JButton[10];
+
+		for (int i = 0; i < arrayBtn.length; i++) {
+			arrayBtn[i] = new JButton(Integer.toString(i));
+			frame.add(arrayBtn[i]);
+		}
+	}
+
+	private void addOperations() {
+		frame.add(new JButton("-"));
+		frame.add(new JButton("+"));
+		frame.add(new JButton("="));
+		frame.add(new JButton("<-"));
+	}
+
+}
