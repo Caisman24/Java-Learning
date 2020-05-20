@@ -1,0 +1,27 @@
+import java.applet.Applet;
+import java.awt.*;
+
+public class AppletClass extends Applet {
+
+	private static final long serialVersionUID = 1L;
+	String fileName;
+	Image image;
+
+	public void init() {
+		fileName = "EasterCard.jpg";
+		image = getImage(getDocumentBase(), fileName);
+	}
+
+	public void paint(Graphics graphics) {
+		graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+		graphics.drawImage(image, 0, 0, this);
+
+		graphics.setColor(Color.MAGENTA);
+		graphics.drawString("Happy Easter!", getWidth() / 12, getHeight() / 6);
+
+		graphics.drawString(fileName, getWidth() / 2, getHeight());
+		graphics.drawString("Width: " + Integer.toString(getWidth() / 10), getWidth() / 11, getHeight());
+		graphics.drawString("Heigth: " + Integer.toString(getHeight() / 2), getWidth() / 4, getHeight());
+	}
+
+}

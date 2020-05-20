@@ -1,0 +1,18 @@
+import java.applet.Applet;
+import java.awt.*;
+
+public class CircleApplet extends Applet {
+
+	private static final long serialVersionUID = 1L;
+
+	public void paint(Graphics g) {
+		g.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
+		g.setColor(new Color(125, 214, 124));
+		g.fillOval(0, 0, getSize().width, getSize().height);
+		g.setColor(new Color(15, 100, 200));
+		g.fillOval(getSize().width / 2, getSize().height / 2, getSize().width / 6, getSize().height / 6);
+		g.setColor(new Color(255, 214, 124));
+		g.fillOval(getSize().width / 2, getSize().height / 4, getSize().width / 4, getSize().height / 4);
+	}
+
+}

@@ -1,0 +1,57 @@
+import java.applet.Applet;
+import java.awt.*;
+
+public class TVColorTester extends Applet {
+
+	private static final long serialVersionUID = 1L;
+
+	public void paint(Graphics g) {
+		int spacing = getSize().height / 16;
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(0, 0, getSize().width, getSize().height);
+		
+		g.setColor(Color.GREEN);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.RED);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.BLUE);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.GREEN);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.YELLOW);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.BLUE);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.CYAN);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.YELLOW);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.MAGENTA);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.CYAN);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+		spacing += getSize().height / 12;
+
+		g.setColor(Color.RED);
+		g.fillRect(0, spacing, getSize().width, getSize().height / 16);
+	}
+
+}

@@ -1,0 +1,21 @@
+import java.applet.Applet;
+import java.awt.*;
+
+public class Circle extends Applet {
+
+	private static final long serialVersionUID = 1L;
+
+	public void paint(Graphics area) {
+		area.setColor(Color.white);
+		int r, g, b;
+
+		for (int i = 0; i < 30; i++) {
+			r = (int) (255 * Math.random());
+			g = (int) (255 * Math.random());
+			b = (int) (255 * Math.random());
+			area.setColor(new Color(r, g, b));
+			area.fillOval((int) (getWidth() * Math.random()), (int) (getHeight() * Math.random()), (int) (30 * Math.random()),
+					(int) (30 * Math.random()));
+		}
+	}
+}

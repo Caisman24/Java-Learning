@@ -1,0 +1,62 @@
+import java.applet.Applet;
+import java.awt.*;
+
+public class CarApplet extends Applet {
+
+	private static final long serialVersionUID = 1L;
+	public final int FIGUREHEIGHT = 300;
+	public final int FIGUREWIDTH = 450;
+
+	Color REDBROWN = new Color(182, 100, 110);
+	Color DARKBROWN = new Color(150, 70, 80);
+	Color LTBLUE = new Color(35, 206, 255);
+	
+	public void paint(Graphics myCar) {
+		myCar.setColor(Color.white);
+		myCar.fillRect(0, 0, FIGUREWIDTH, FIGUREHEIGHT);
+
+		myCar.setColor(Color.black);
+		myCar.fillOval(20, 170, 100, 100);
+		myCar.setColor(Color.white);
+		myCar.fillOval(30, 180, 80, 80);
+		myCar.setColor(Color.black);
+		myCar.drawOval(40, 190, 60, 60);
+
+		myCar.setColor(Color.black);
+		myCar.fillOval(270, 170, 100, 100);
+		myCar.setColor(Color.white);
+		myCar.fillOval(280, 180, 80, 80);
+		myCar.setColor(Color.black);
+		myCar.drawOval(290, 190, 60, 60);
+
+		myCar.setColor(DARKBROWN);
+		myCar.fillRect(10, 113, 122, 12);
+		myCar.setColor(REDBROWN);
+		myCar.fillRect(10, 123, 122, 82);
+
+		myCar.setColor(LTBLUE);
+		myCar.fillRect(130, 15, 130, 100);
+
+		myCar.setColor(REDBROWN);
+		myCar.fillRect(130, 113, 130, 92);
+
+		myCar.setColor(REDBROWN); // car backseat
+		myCar.fillRect(258, 15, 122, 190);
+
+		myCar.setColor(REDBROWN); // car trunk
+		myCar.fillRect(378, 80, 57, 125);
+
+		myCar.setColor(DARKBROWN); // car running board
+		myCar.fillRect(118, 205, 154, 10);
+
+		myCar.setColor(Color.black); // visor
+		myCar.drawLine(131, 15, 110, 30);
+		myCar.drawLine(131, 16, 110, 31);
+		myCar.drawLine(131, 17, 110, 32);
+
+		myCar.setColor(Color.black); // door handle
+		myCar.drawLine(145, 125, 170, 125);
+		myCar.drawLine(145, 124, 170, 124);
+		myCar.drawLine(145, 123, 170, 123);
+	}
+}

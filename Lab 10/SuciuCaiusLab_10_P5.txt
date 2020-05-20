@@ -1,0 +1,32 @@
+import java.applet.Applet;
+import java.awt.*;
+
+public class ColorPicker extends Applet {
+
+	private static final long serialVersionUID = 1L;
+
+	public void paint(Graphics graphics) {
+		try {
+			Thread.sleep(50);
+			for (int r = 255; r >= 0; r -= 25) {
+				try {
+					Thread.sleep(50);
+					for (int g = 255; g >= 0; g -= 25) {
+						for (int b = 255; b >= 0; b -= 15) {
+							try {
+								Thread.sleep(50);
+								graphics.setColor(new Color(r, g, b));
+								graphics.fillOval(0, 0, getSize().width, getSize().height);
+							} catch (InterruptedException ex) {
+								System.out.println("app closed!");
+							}
+						}
+					}
+				} catch (InterruptedException ex) {
+				}
+			}
+		} catch (InterruptedException er) {
+		}
+	}
+
+}
