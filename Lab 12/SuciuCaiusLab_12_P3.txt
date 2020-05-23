@@ -1,0 +1,125 @@
+
+public class Main {
+	public static void main(String[] args) {
+		new ReactionTimer();
+	}
+}
+
+
+import java.awt.event.ActionEvent;
+import java.util.Random;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+
+public class ReactionTimer extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
+	
+	JLabel roundTextArea;
+	JLabel circle;
+	JLabel scoreLabel;
+	
+	JButton blackButton;
+	JButton redButton;
+	
+	Double timeInMilis = 0.0;
+	Integer round = 0;
+	Integer score = 0;
+	
+	boolean notDone = true;
+	boolean isRed;
+	
+
+	public ReactionTimer() {
+		setVisible(true);
+		setLayout(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(500, 500);
+
+		roundTextArea = new JLabel("ROUND: " + round.toString());
+		roundTextArea.setBounds(15, 30, 100, 100);
+
+		add(roundTextArea);
+		for (int i = 0; i < 10; i++) {
+			round++;
+			gameOn();
+		}
+		remove(circle);
+		remove(redButton);
+		remove(blackButton);
+		remove(roundTextArea);
+		timeInMilis = (Double) timeInMilis / 1000;
+		scoreLabel = new JLabel("SCORE: " + score + "Time: " + (timeInMilis).toString() + "s");
+		scoreLabel.setBounds(15, 30, 500, 100);
+		add(scoreLabel);
+		repaint();
+	}
+
+	public void gameOn() {
+		notDone = true;
+		roundTextArea.setText("Round: " + round.toString());
+		Random random = new Random();
+		isRed = random.nextBoolean();
+		if (isRed) {
+			if (circle != null)
+				remove(circle);
+			ImageIcon iconBlack = new ImageIcon(getClass().getResource("blackCircle.png"));
+			circle = new JLabel(iconBlack);
+			circle.setBounds(125, 150, 300, 300);
+			add(circle);
+		} else {
+			if (circle != null)
+				remove(circle);
+			ImageIcon iconRed = new ImageIcon(getClass().getResource("redCircle.png"));
+			circle = new JLabel(iconRed);
+			circle.setBounds(125, 150, 300, 300);
+			add(circle);
+		}
+		long startTime = System.currentTimeMillis();
+		if (redButton != null) {
+			remove(redButton);
+		}
+		if (blackButton != null) {
+			remove(blackButton);
+		}
+
+		redButton = new JButton("RED");
+		redButton.setBounds(190, 30, 75, 75);
+		redButton.addActionListener(evt -> actionPerformedRed(evt));
+		add(redButton);
+
+		blackButton = new JButton("BLACK");
+		blackButton.setBounds(270, 30, 75, 75);
+		blackButton.addActionListener(evt -> actionPerformedBlack(evt));
+		add(blackButton);
+
+		while (notDone) {
+			try {
+				Thread.sleep(500);
+				repaint();
+
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		long endTime = System.currentTimeMillis();
+		timeInMilis += endTime - startTime;
+
+	}
+
+	public void actionPerformedRed(ActionEvent evt) {
+		notDone = false;
+		if (!isRed)
+			score++;
+	}
+
+	public void actionPerformedBlack(ActionEvent evt) {
+		notDone = false;
+		if (isRed)
+			score++;
+	}
+}

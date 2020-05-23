@@ -1,0 +1,82 @@
+
+public class Main {
+	public static void main(String[] args) {
+		new RectangleColoring();
+	}
+}
+
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+public class RectangleColoring extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+
+	JSlider slider1;
+	JSlider slider2;
+	JSlider slider3;
+	int redValue = 0;
+	int greenValue = 0;
+	int blueValue = 0;
+	private JPanel panel;
+
+	public static void main(String[] args) {
+		new RectangleColoring();
+	}
+
+	public RectangleColoring() {
+		setLayout(null);
+		setSize(300, 250);
+		setTitle("Rectangle Color");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+
+		panel = new JPanel();
+		panel.setBounds(100, 50, 100, 100);
+		panel.setBackground(new Color(redValue, greenValue, blueValue));
+		add(panel);
+
+		slider1 = new JSlider(JSlider.HORIZONTAL, 0, 255, 1);
+		slider1.setBounds(15, 15, 50, 10);
+		slider1.setPreferredSize(new Dimension(50, 50));
+		slider1.setMajorTickSpacing(255);
+		slider1.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent event) {
+				redValue = slider1.getValue();
+				panel.setBackground(new Color(redValue, greenValue, blueValue));
+			}
+		});
+
+		add(slider1);
+
+		slider2 = new JSlider(JSlider.HORIZONTAL, 0, 255, 1);
+		slider2.setBounds(15, 65, 50, 10);
+		slider2.setMajorTickSpacing(255);
+		slider2.setPreferredSize(new Dimension(50, 50));
+		slider2.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent event) {
+				greenValue = slider2.getValue();
+				panel.setBackground(new Color(redValue, greenValue, blueValue));
+			}
+		});
+		add(slider2);
+
+		slider3 = new JSlider(JSlider.HORIZONTAL, 0, 255, 1);
+		slider3.setBounds(15, 120, 50, 10);
+		slider3.setPreferredSize(new Dimension(50, 50));
+		slider3.setMajorTickSpacing(255);
+		slider3.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent event) {
+				blueValue = slider3.getValue();
+				panel.setBackground(new Color(redValue, greenValue, blueValue));
+			}
+		});
+		add(slider3);
+
+	}
+}
