@@ -1,0 +1,110 @@
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
+
+public class SignUp extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+
+	private JTextField name;
+	private JTextField group;
+	private Choice yearOfStudy;
+	private JButton button;
+	private JComboBox<String> courseBox;
+
+	public SignUp() {
+		initGUI();
+	}
+
+	private void initGUI() {
+		setSize(new Dimension(270, 400));
+		setTitle("Sign up");
+		setLayout(null);
+
+		addName();
+
+		addGroup();
+
+		addYear();
+
+		addCourseLabel();
+
+		addSignUp();
+
+		button.addActionListener(evt -> handle(evt));
+	}
+
+	private void addCourseLabel() {
+		courseBox = new JComboBox<String>();
+		JLabel courseLabel = new JLabel("Course");
+		courseLabel.setBounds(15, 180, 125, 15);
+		add(courseLabel);
+		courseBox.setBounds(15, 195, 125, 30);
+		courseBox.addItem("Java");
+		courseBox.addItem("Android fundamentals");
+		courseBox.addItem("Android advanced");
+		courseBox.addItem("Python");
+		add(courseBox);
+	}
+
+	private void addName() {
+		JLabel nameLabel = new JLabel("Name");
+		nameLabel.setBounds(15, 15, 100, 10);
+		add(nameLabel);
+		name = new JTextField();
+		name.setBounds(15, 30, 100, 30);
+		add(name);
+	}
+
+	private void addGroup() {
+		JLabel groupLabel = new JLabel("Group");
+		groupLabel.setBounds(15, 65, 100, 10);
+		add(groupLabel);
+		group = new JTextField();
+		group.setBounds(15, 80, 100, 30);
+		add(group);
+	}
+
+	private void addYear() {
+		JLabel yearLabel = new JLabel("Year of study");
+		yearLabel.setBounds(15, 125, 100, 15);
+		add(yearLabel);
+		yearOfStudy = new Choice();
+		yearOfStudy.setBounds(15, 140, 125, 30);
+		yearOfStudy.add("1st Year");
+		yearOfStudy.add("2nd Year");
+		yearOfStudy.add("3rd Year");
+		yearOfStudy.add("4th Year");
+		add(yearOfStudy);
+	}
+
+	private void addSignUp() {
+		button = new JButton("Sign Up");
+		button.setBounds(15, 270, 100, 30);
+		add(button);
+		setVisible(true);
+	}
+
+	private void handle(ActionEvent evt) {
+		setSize(new Dimension(300, 500));
+		remove(button);
+		JLabel resultLabel = new JLabel("Registration successful!");
+		resultLabel.setBounds(15, 355, 250, 15);
+		add(resultLabel);
+		JTextArea resultTextArea = new JTextArea();
+		resultTextArea.setBounds(15, 370, 300, 120);
+		add(resultTextArea);
+
+		resultTextArea.setText("Name: " + name.getText() + "\nGroup: " + group.getText() + "\nCourse selected: "
+				+ courseBox.getSelectedItem());
+
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		new SignUp();
+	}
+}
+

@@ -1,0 +1,314 @@
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new Calculator();
+	}
+
+}
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.util.StringTokenizer;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+public class Calculator extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+
+	protected String result = "";
+	private JTextField textField;
+	private JButton button0;
+	private JButton button1;
+	private JButton button2;
+	private JButton button3;
+	private JButton button4;
+	private JButton button5;
+	private JButton button6;
+	private JButton button7;
+	private JButton button8;
+	private JButton button9;
+
+	private JButton addButton;
+	private JButton subButton;
+	private JButton multButton;
+	private JButton divButton;
+	private JButton sqrtButton;
+	private JButton clearButton;
+	private JButton resultButton;
+	private JButton dotButton;
+
+	public Calculator() {
+		Container c = this.getContentPane();
+		c.setBackground(Color.WHITE);
+		setTitle("Calculator");
+		setLayout(null);
+		setVisible(true);
+		setSize(new Dimension(300, 400));
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		textField = new JTextField(result);
+		textField.setBounds(10, 5, 230, 40);
+		textField.setHorizontalAlignment(SwingConstants.RIGHT);
+		add(textField);
+
+		clearButton = new JButton("C");
+		clearButton.setBounds(20, 50, 35, 30);
+		clearButton.addActionListener(evt -> handleClear(evt));
+		add(clearButton);
+
+		resultButton = new JButton("=");
+		resultButton.setBounds(200, 280, 35, 30);
+		resultButton.addActionListener(evt -> handleResult(evt));
+		add(resultButton);
+
+		addButton = new JButton("+");
+		addButton.setBounds(200, 240, 35, 30);
+		addButton.addActionListener(evt -> handleAdd(evt));
+		add(addButton);
+
+		subButton = new JButton("-");
+		subButton.setBounds(140, 280, 35, 30);
+		subButton.addActionListener(evt -> handleSub(evt));
+		add(subButton);
+
+		multButton = new JButton("X");
+		multButton.setBounds(200, 200, 35, 30);
+		multButton.addActionListener(evt -> handleMult(evt));
+		add(multButton);
+
+		divButton = new JButton("/");
+		divButton.setBounds(200, 160, 35, 30);
+		divButton.addActionListener(evt -> handleDiv(evt));
+		add(divButton);
+
+		sqrtButton = new JButton("\u221A");
+		sqrtButton.setBounds(200, 120, 35, 30);
+		sqrtButton.addActionListener(evt -> handleSqrt(evt));
+		add(sqrtButton);
+
+		dotButton = new JButton(".");
+		dotButton.setBounds(20, 280, 35, 30);
+		dotButton.addActionListener(evt -> handleDot(evt));
+		add(dotButton);
+
+		button0 = new JButton("0");
+		button0.setBounds(80, 280, 35, 30);
+		button0.addActionListener(evt -> handle0(evt));
+		add(button0);
+
+		button1 = new JButton("1");
+		button1.setBounds(20, 160, 35, 30);
+		button1.addActionListener(evt -> handle1(evt));
+		add(button1);
+
+		button2 = new JButton("2");
+		button2.setBounds(80, 160, 35, 30);
+		button2.addActionListener(evt -> handle2(evt));
+		add(button2);
+
+		button3 = new JButton("3");
+		button3.setBounds(140, 160, 35, 30);
+		button3.addActionListener(evt -> handle3(evt));
+		add(button3);
+
+		button4 = new JButton("4");
+		button4.setBounds(20, 200, 35, 30);
+		button4.addActionListener(evt -> handle4(evt));
+		add(button4);
+
+		button5 = new JButton("5");
+		button5.setBounds(80, 200, 35, 30);
+		button5.addActionListener(evt -> handle5(evt));
+		add(button5);
+
+		button6 = new JButton("6");
+		button6.setBounds(140, 200, 35, 30);
+		button6.addActionListener(evt -> handle6(evt));
+		add(button6);
+
+		button7 = new JButton("7");
+		button7.setBounds(20, 240, 35, 30);
+		button7.addActionListener(evt -> handle7(evt));
+		add(button7);
+
+		button8 = new JButton("8");
+		button8.setBounds(80, 240, 35, 30);
+		button8.addActionListener(evt -> handle8(evt));
+		add(button8);
+
+		button9 = new JButton("9");
+		button9.setBounds(140, 240, 35, 30);
+		button9.addActionListener(evt -> handle9(evt));
+		add(button9);
+
+		repaint();
+	}
+
+	public void handleClear(ActionEvent evt) {
+		result = "";
+		textField.setText(result);
+		repaint();
+	}
+
+	public void handle0(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "0");
+		repaint();
+	}
+
+	public void handle1(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "1");
+		repaint();
+	}
+
+	public void handle2(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "2");
+		repaint();
+	}
+
+	public void handle3(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "3");
+		repaint();
+	}
+
+	public void handle4(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "4");
+		repaint();
+	}
+
+	public void handle5(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "5");
+		repaint();
+	}
+
+	public void handle6(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "6");
+		repaint();
+	}
+
+	public void handle7(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "7");
+		repaint();
+	}
+
+	public void handle8(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "8");
+		repaint();
+	}
+
+	public void handle9(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "9");
+		repaint();
+	}
+
+	public void handleDot(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + ".");
+		repaint();
+	}
+
+	public void handleAdd(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "+");
+		repaint();
+	}
+
+	public void handleSub(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "-");
+		repaint();
+	}
+
+	public void handleMult(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "*");
+		repaint();
+	}
+
+	public void handleDiv(ActionEvent evt) {
+		result = textField.getText();
+		textField.setText(result + "/");
+		repaint();
+	}
+
+	public void handleResult(ActionEvent evt) {
+		try {
+			String text = textField.getText();
+			if (text.contains("+")) {
+				Double res = 0.0;
+				StringTokenizer stringTokenizer = new StringTokenizer(text, "+");
+				do {
+					String temp = stringTokenizer.nextToken();
+					Double tempNr = Double.parseDouble(temp);
+					res += tempNr;
+				} while (stringTokenizer.hasMoreTokens());
+				result = res.toString();
+				textField.setText(result);
+			}
+
+			if (result.contains("-")) {
+
+				Double res = 0.0;
+				StringTokenizer stringTokenizer = new StringTokenizer(text, "-");
+				do {
+					String temp = stringTokenizer.nextToken();
+					Double tempNr = Double.parseDouble(temp);
+					res -= tempNr;
+				} while (stringTokenizer.hasMoreTokens());
+				result = res.toString();
+				textField.setText(result);
+			}
+			if (result.contains("*")) {
+				Double res = 1.0;
+				StringTokenizer stringTokenizer = new StringTokenizer(text, "*");
+				do {
+					String temp = stringTokenizer.nextToken();
+					Double tempNr = Double.parseDouble(temp);
+					res *= tempNr;
+				} while (stringTokenizer.hasMoreTokens());
+				result = res.toString();
+				textField.setText(result);
+			}
+			if (result.contains("/")) {
+				Double res = 0.0;
+				StringTokenizer stringTokenizer = new StringTokenizer(text, "/");
+				do {
+
+					String temp = stringTokenizer.nextToken();
+					Double tempNr = Double.parseDouble(temp);
+					if (res == 0.0) {
+						res += tempNr;
+					} else
+						res /= tempNr;
+				} while (stringTokenizer.hasMoreTokens());
+				result = res.toString();
+				textField.setText(result);
+			}
+		} catch (NumberFormatException ex) {
+			textField.setText("ERROR");
+		}
+	}
+
+	public void handleSqrt(ActionEvent evt) {
+		Double temp = Double.parseDouble(textField.getText());
+		temp = Math.sqrt(temp);
+		result = temp.toString();
+		textField.setText(result);
+		repaint();
+	}
+}

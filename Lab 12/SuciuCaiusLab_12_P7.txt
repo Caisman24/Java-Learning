@@ -1,0 +1,82 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.*;
+
+public class Dice extends JFrame {
+	private static final long serialVersionUID = 1L;
+
+	private class Player { // nested class
+		private int value;
+
+		public Player() {
+			roll();
+		}
+
+		public void roll() {
+			Random rand = new Random();
+			value = rand.nextInt(6) + 1;
+		}
+
+		public String getVal() {
+			return value + "";
+		}
+	}
+
+	private Player player1 = new Player(); // Dice
+	private Player player2 = new Player();
+
+	public Dice() { // constructor for Class -> here it starts the Class
+		initGame();
+	}
+
+	public void initGame() {
+		new JFrame("Dice");
+		setSize(300, 200);
+
+		MouseAdapter listen = new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				roll();
+				repaint();
+			}
+		};
+		addMouseListener(listen);
+
+		setVisible(true);
+	}
+
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+
+		g2d.setFont(new Font("Arial", Font.PLAIN, 28)); // Set the font.
+
+		g2d.setColor(Color.white); // color the background.
+		g2d.fillRect(0, 0, getWidth(), getHeight());
+
+		g2d.setColor(Color.black);
+		g2d.fillRect(50, 50, 75, 45);
+
+		g2d.setColor(Color.black);
+		g2d.drawRect(135, 50, 45, 45);
+		g2d.drawRect(190, 50, 45, 45);
+
+		g2d.setColor(Color.white);
+		g2d.drawString("Roll", 65, 80);
+
+		g2d.setColor(Color.black); // Paint player values.
+		g2d.drawString(player1.getVal(), 150, 82);
+		g2d.drawString(player2.getVal(), 205, 82);
+	}
+
+	public void roll() {
+		player1.roll();
+		player2.roll();
+	}
+}
+
+public class Main {
+
+	public static void main(String[] args) {
+		new Dice();
+	}
+}
